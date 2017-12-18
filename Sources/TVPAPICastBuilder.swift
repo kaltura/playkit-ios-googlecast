@@ -16,7 +16,7 @@ import PlayKit
  TVPAPICastBuilder this component will help you to comunicate with Kaltura-custom-receiver with TVPAPI Server.
 
  */
-public class TVPAPICastBuilder: BasicCastBuilder {
+@objc public class TVPAPICastBuilder: BasicCastBuilder {
     
     enum BasicBuilderDataError: Error {
         case missingInitObject
@@ -31,7 +31,7 @@ public class TVPAPICastBuilder: BasicCastBuilder {
      - Parameter initObject: that the receiver will use to represent the user
      */
     @discardableResult
-    public func set(initObject: [String: Any]?) -> Self {
+    @objc public func set(initObject: [String: Any]?) -> Self {
         
         guard initObject != nil
             else {
@@ -47,7 +47,7 @@ public class TVPAPICastBuilder: BasicCastBuilder {
      - Parameter format: the file format that the receiver will play
      */
     @discardableResult
-    public func set(format: String?) -> Self {
+    @objc public func set(format: String?) -> Self {
         
         guard format != nil,
             format?.isEmpty == false
