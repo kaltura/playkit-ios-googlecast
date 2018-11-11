@@ -10,7 +10,6 @@
 
 import UIKit
 import GoogleCast
-import PlayKit
 
 /**
  CastAdInfoParser
@@ -31,7 +30,7 @@ import PlayKit
     @objc public func remoteMediaClient(_ client: GCKRemoteMediaClient, shouldSetPlayingAdIn mediaStatus: GCKMediaStatus) -> Bool {
         
         guard let customData = mediaStatus.customData as? [String: Any], let adsInfo = customData["adsInfo"] as? [String: Any] else {
-            PKLog.warning("No Ads info from receiver")
+            PKGCLog.warning("No Ads info from receiver")
             return false
         }
         let metadata = AdsMetadata(dict: adsInfo)
@@ -45,7 +44,7 @@ import PlayKit
     @objc public func remoteMediaClient(_ client: GCKRemoteMediaClient, shouldSetAdBreaksIn mediaStatus: GCKMediaStatus) -> [GCKAdBreakInfo]? {
         
         guard let customData = mediaStatus.customData as? [String: Any], let adsInfo = customData["adsInfo"] as? [String: Any] else {
-            PKLog.warning("No Ads info from receiver")
+            PKGCLog.warning("No Ads info from receiver")
             return nil
         }
         
