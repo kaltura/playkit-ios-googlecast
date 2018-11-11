@@ -10,20 +10,11 @@
 
 import UIKit
 import GoogleCast
-import PlayKit
 
 /**
- 
- TVPAPICastBuilder this component will help you to comunicate with Kaltura-custom-receiver.
- 
+ BasicCastBuilder this component will help you to communicate with Kaltura-custom-receiver.
  */
 @objc public class BasicCastBuilder: NSObject {
-    
-    @objc public enum StreamType: Int {
-        case live
-        case vod
-        case unknown
-    }
     
     enum BasicBuilderDataError: Error {
         case missingContentId
@@ -31,14 +22,15 @@ import PlayKit
         case missingPartnerID
         case missingUIConfId
         case missingStreamType
+        case missingAdTagType
+        case missingAdTagURL
     }
-   
-    @objc public var contentId: String!
-    @objc public var webPlayerURL: String?
-    @objc public var partnerID: String?
-    @objc public var uiconfID: String?
-    @objc public var adTagURL: String?
-    @objc public var metaData: GCKMediaMetadata?
+    
+    @objc public enum StreamType: Int {
+        case live
+        case vod
+        case unknown
+    }
     
     @objc public var streamType = StreamType.unknown {
         didSet {
@@ -50,28 +42,32 @@ import PlayKit
         }
     }
     private var gckMediaStreamType = GCKMediaStreamType.unknown
+   
+    @objc public var contentId: String!
+    @objc public var contentType: String = ""
+    @objc public var metaData: GCKMediaMetadata?
+    @objc public var adBreaks: [GCKAdBreakInfo]?
+    @objc public var adBreakClips: [GCKAdBreakClipInfo]?
+    @objc public var streamDuration: TimeInterval = 0
+    @objc public var mediaTracks: [GCKMediaTrack]?
+    @objc public var textTrackStyle: GCKMediaTextTrackStyle?
+    
+    @objc public var webPlayerURL: String?
+    @objc public var partnerID: String?
+    @objc public var uiconfID: String?
+    @objc public var adTagURL: String?
 
-    /**
-     Set - stream type
-     - Parameter contentId: receiver contentId to play ( Entry id, or Asset id )
-     */
-    @discardableResult
-    @nonobjc public func set(streamType: StreamType) -> Self {
-        self.streamType = streamType
-        return self
-    }
+    // MARK: - Set - Required
     
     /**
      Set - contentId
-     - Parameter contentId: receiver contentId to play ( Entry id, or Asset id )
+     - Parameter contentId: Receiver content id to play ( Entry id, or Asset id )
      */
     @discardableResult
     @nonobjc public func set(contentId: String?) -> Self {
         
-        guard contentId != nil,
-            contentId?.isEmpty == false
-            else {
-                PKLog.warning("Trying to set nil or empty string to content id")
+        guard contentId != nil, contentId?.isEmpty == false else {
+                PKGCLog.warning("Trying to set nil or empty string to content id")
                 return self
         }
         
@@ -79,18 +75,138 @@ import PlayKit
         return self
     }
     
+    // MARK: - Set - Optional
+    
+    /**
+     Set - streamType
+     - Parameter streamType: Receiver stream type to play.
+     */
+    @discardableResult
+    @nonobjc public func set(streamType: StreamType) -> Self {
+        
+        self.streamType = streamType
+        return self
+    }
+    
+    /**
+     Set - contentType - Optional
+     - Parameter contentType: Receiver content type. The content (MIME) type.
+     */
+    @discardableResult
+    @nonobjc public func set(contentType: String?) -> Self {
+        
+        guard let theContentType = contentType, theContentType.isEmpty == false else {
+                PKGCLog.debug("Trying to set nil or an empty string to contentType")
+                return self
+        }
+        
+        self.contentType = theContentType
+        return self
+    }
+    
+    /**
+     Set - metaData - Optional
+     - Parameter metaData: Receiver metadata. The media item metadata.
+     */
+    @discardableResult
+    @nonobjc public func set(metaData: GCKMediaMetadata?) -> Self{
+        
+        guard metaData != nil else {
+                PKGCLog.warning("Trying to set nil to metaData")
+                return self
+        }
+        
+        self.metaData = metaData
+        return self
+    }
+    
+    /**
+     Set - adBreaks - Optional
+     - Parameter adBreaks: Receiver ad breaks. The list of ad breaks in this content.
+     */
+    @discardableResult
+    @nonobjc public func set(adBreaks: [GCKAdBreakInfo]?) -> Self {
+        
+        guard adBreaks != nil else {
+            PKGCLog.debug("Trying to set nil to adBreaks")
+            return self
+        }
+        
+        self.adBreaks = adBreaks
+        return self
+    }
+    
+    /**
+     Set - adBreakClips - Optional
+     - Parameter adBreakClips: Receiver ad break clips. The list of ad break clips in this content.
+     */
+    @discardableResult
+    @nonobjc public func set(adBreakClips: [GCKAdBreakClipInfo]?) -> Self {
+        
+        guard adBreakClips != nil else {
+            PKGCLog.debug("Trying to set nil to adBreakClips")
+            return self
+        }
+        
+        self.adBreakClips = adBreakClips
+        return self
+    }
+    
+    /**
+     Set - streamDuration - Optional
+     - Parameter streamDuration: Receiver stream duration. The stream duration.
+     */
+    @discardableResult
+    @nonobjc public func set(streamDuration: TimeInterval) -> Self {
+        
+        self.streamDuration = streamDuration
+        return self
+    }
+    
+    /**
+     Set - mediaTracks - Optional
+     - Parameter mediaTracks: Receiver media tracks. The media tracks.
+     */
+    @discardableResult
+    @nonobjc public func set(mediaTracks: [GCKMediaTrack]?) -> Self {
+        
+        guard mediaTracks != nil else {
+            PKGCLog.debug("Trying to set nil to mediaTracks")
+            return self
+        }
+        
+        self.mediaTracks = mediaTracks
+        return self
+    }
+    
+    /**
+     Set - textTrackStyle - Optional
+     - Parameter textTrackStyle: Receiver text track style. The text track style.
+     */
+    @discardableResult
+    @nonobjc public func set(textTrackStyle: GCKMediaTextTrackStyle?) -> Self {
+        
+        guard textTrackStyle != nil else {
+            PKGCLog.debug("Trying to set nil to textTrackStyle")
+            return self
+        }
+        
+        self.textTrackStyle = textTrackStyle
+        return self
+    }
+    
+    // MARK: - Set - Kaltura Data
+    
     /**
      Set - adTagURL
-     - Parameter adTagURL: that advertisments url to play
+     - Parameter adTagURL: The advertisments url to play.
      */
     @discardableResult
     @nonobjc public func set(adTagURL: String?) -> Self {
         
-        guard adTagURL != nil,
-            adTagURL?.isEmpty == false
-            else {
-                PKLog.warning("Trying to set nil or empty string to adTagURL")
-                return self
+        guard adTagURL != nil, adTagURL?.isEmpty == false else {
+            PKGCLog.debug("Trying to set nil or empty string to adTagURL")
+            return self
         }
         
         self.adTagURL = adTagURL
@@ -99,36 +215,30 @@ import PlayKit
     
     /**
      Set - webPlayerURL
-     - Parameter webPlayerURL: the location of the web player the receiver will use to play content
+     - Parameter webPlayerURL: The location of the web player the receiver will use to play content.
      */
     @discardableResult
     @nonobjc public func set(webPlayerURL: String?) -> Self {
         
-        guard webPlayerURL != nil,
-            webPlayerURL?.isEmpty == false
-            else {
-                PKLog.warning("Trying to set nil or empty string to webPlayerURL")
-                return self
+        guard webPlayerURL != nil, webPlayerURL?.isEmpty == false else {
+            PKGCLog.warning("Trying to set nil or empty string to webPlayerURL")
+            return self
         }
         
         self.webPlayerURL = webPlayerURL
         return self
     }
     
-   
-    
     /**
      Set - partnerID
-     - Parameter partnerID: the client partner id
+     - Parameter partnerID: The client partner id.
      */
     @discardableResult
     @nonobjc public func set(partnerID: String?) -> Self {
         
-        guard partnerID != nil,
-            partnerID?.isEmpty == false
-            else {
-                PKLog.warning("Trying to set nil or empty string to partnerID")
-                return self
+        guard partnerID != nil, partnerID?.isEmpty == false else {
+            PKGCLog.warning("Trying to set nil or empty string to partnerID")
+            return self
         }
         
         self.partnerID = partnerID
@@ -137,51 +247,28 @@ import PlayKit
     
     /**
      Set - uiconfID
-     - Parameter uiconfID: the receiver uiconf id thet has the configuration for the layout and plugins
+     - Parameter uiconfID: The receiver uiconf id that has the configuration for the layout and plugins.
      */
     @discardableResult
     @nonobjc public func set(uiconfID: String?) -> Self {
         
-        guard uiconfID != nil,
-            uiconfID?.isEmpty == false
-            else {
-                PKLog.warning("Trying to set nil or empty string to uiconfID")
-                return self
+        guard uiconfID != nil, uiconfID?.isEmpty == false else {
+            PKGCLog.warning("Trying to set nil or empty string to uiconfID")
+            return self
         }
 
         self.uiconfID = uiconfID
         return self
     }
     
+    // MARK: -
     
-    /**
-     Set - metaData
-     - Parameter metaData: the receiver google meta data
-     */
-    @discardableResult
-    @nonobjc public func set(metaData: GCKMediaMetadata?) -> Self{
+    internal func validate() throws {
         
-        guard metaData != nil
-            else {
-                PKLog.warning("Trying to set nil to metaData")
-                return self
-        }
-        
-        self.metaData = metaData
-        return self
-    }
-    
-    
-    func validate() throws {
         guard self.contentId != nil else {
             throw BasicCastBuilder.BasicBuilderDataError.missingContentId
         }
-        
-        guard self.streamType != .unknown else {
-            throw BasicCastBuilder.BasicBuilderDataError.missingStreamType
-        }
     }
-
     
     /**
      Build GCKMediaInformation a google-cast-sdk object to send through the load google-API 
@@ -190,20 +277,21 @@ import PlayKit
         
         try self.validate()
         let customData = self.customData()
-        let mediaInfo: GCKMediaInformation = GCKMediaInformation(contentID:self.contentId,
+        let mediaInfo: GCKMediaInformation = GCKMediaInformation(contentID: self.contentId,
                                                                  streamType: self.gckMediaStreamType,
-                                                                 contentType: "",
+                                                                 contentType: self.contentType,
                                                                  metadata: self.metaData,
-                                                                 streamDuration: 0,
+                                                                 adBreaks: self.adBreaks,
+                                                                 adBreakClips: self.adBreakClips,
+                                                                 streamDuration: self.streamDuration,
+                                                                 mediaTracks: self.mediaTracks,
+                                                                 textTrackStyle: self.textTrackStyle,
                                                                  customData: customData)
+        
         return mediaInfo
     }
     
-    
-    
-    
-    // MARK - Setup custom data
-    
+    // MARK: - Create custom data
     
     /**
      customData - Which used by Kaltura receiver to play the content through the Kaltura Web Player
@@ -216,7 +304,6 @@ import PlayKit
         }
         return nil
     }
-    
     
     internal func embedConfig() -> [String:Any]? {
         
@@ -242,7 +329,6 @@ import PlayKit
         return embedConfig
     }
     
-
     internal func flashVars() -> [String: Any]{
         
         var flashVars = [String:Any]()

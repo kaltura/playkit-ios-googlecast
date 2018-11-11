@@ -9,17 +9,17 @@
 // ===================================================================================================
 
 import UIKit
-import PlayKit
-
 
 /**
  
- TVPAPICastBuilder this component will help you to comunicate with Kaltura-custom-receiver with OVP-Kaltura Server.
+ OVPCastBuilder this component will help you to communicate with Kaltura-custom-receiver with OVP-Kaltura Server.
  
  */
 @objc public class OVPCastBuilder: BasicCastBuilder{
     
     internal var ks: String?
+    
+    // MARK: - Set - Kaltura Data
     
     /**
      Set - ks
@@ -31,7 +31,7 @@ import PlayKit
         guard ks != nil,
             ks?.isEmpty == false
             else {
-                PKLog.warning("Trying to set nil or empty string to ks")
+                PKGCLog.warning("Trying to set nil or empty string to ks")
                 return self
         }
         
@@ -39,7 +39,19 @@ import PlayKit
         return self
     }
     
-  
+    // MARK: -
+    
+    override func validate() throws {
+        
+        try super.validate()
+        
+        guard self.streamType != .unknown else {
+            throw BasicCastBuilder.BasicBuilderDataError.missingStreamType
+        }
+    }
+    
+    // MARK: - Create custom data
+    
     override func embedConfig() -> [String: Any]? {
      
         if var embedConfig = super.embedConfig(), let ks = self.ks , ks.isEmpty == false {
