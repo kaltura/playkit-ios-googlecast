@@ -26,10 +26,18 @@ import GoogleCast
         case missingAdTagURL
     }
     
-    @objc public enum StreamType: Int {
+    @objc public enum StreamType: Int, CustomStringConvertible {
         case live
         case vod
         case unknown
+        
+        public var description: String {
+            switch self {
+            case .live: return "Live"
+            case .vod: return "VOD"
+            case .unknown: return "Unknown"
+            }
+        }
     }
     
     @objc public var streamType = StreamType.unknown {

@@ -11,12 +11,12 @@
 import XCGLogger
 
 /// `PKGCLogLevel` describes the available log levels.
-@objc public enum PKGCLogLevel: Int {
+@objc public enum PKGCLogLevel: Int, CustomStringConvertible {
     case verbose, debug, info, warning, error
     
     static let `default` = PKGCLogLevel.debug
     
-    var description: String {
+    public var description: String {
         return String(describing: self).uppercased()
     }
     
