@@ -31,12 +31,9 @@ import GoogleCast
         
         public var description: String {
             switch self {
-            case .media:
-                return "media"
-            case .epg:
-                return "epg"
-            case .recording:
-                return "recording"
+            case .media: return "media"
+            case .epg: return "epg"
+            case .recording: return "recording"
             }
         }
     }
@@ -48,12 +45,9 @@ import GoogleCast
         
         public var description: String {
             switch self {
-            case .media:
-                return "media"
-            case .epgInternal:
-                return "epg_internal"
-            case .epgExternal:
-                return "epg_external"
+            case .media: return "media"
+            case .epgInternal: return "epg_internal"
+            case .epgExternal: return "epg_external"
             }
         }
     }
@@ -66,14 +60,10 @@ import GoogleCast
         
         public var description: String {
             switch self {
-            case .trailer:
-                return "TRAILER"
-            case .catchup:
-                return "CATCHUP"
-            case .startOver:
-                return "START_OVER"
-            case .playback:
-                return "PLAYBACK"
+            case .trailer: return "TRAILER"
+            case .catchup: return "CATCHUP"
+            case .startOver: return "START_OVER"
+            case .playback: return "PLAYBACK"
             }
         }
     }
@@ -85,20 +75,25 @@ import GoogleCast
         
         public var description: String {
             switch self {
-            case .http:
-                return "http"
-            case .https:
-                return "https"
-            case .all:
-                return "all"
+            case .http: return "http"
+            case .https: return "https"
+            case .all: return "all"
             }
         }
     }
     
-    @objc public enum CAFAdTagType: Int {
+    @objc public enum CAFAdTagType: Int, CustomStringConvertible {
         case vmap
         case vast
         case unset
+        
+        public var description: String {
+            switch self {
+            case .vmap: return "vmap"
+            case .vast: return "vast"
+            case .unset: return "<unset>"
+            }
+        }
     }
     
     // MARK: - Set - Kaltura Data
