@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/kaltura/playkit-ios-googlecast.git', :tag => 'v' + s.version.to_s }  
   s.source_files = 'Sources/**/*'
   
-  s.swift_version     = '4.2'
+  s.swift_version     = '5.0'
   s.static_framework = true
 
   s.ios.deployment_target = '9.0'
@@ -25,6 +25,6 @@ Pod::Spec.new do |s|
   }
 
   s.dependency 'google-cast-sdk', '4.3.3'
-  s.dependency 'XCGLogger', '~> 6.1.0'
+  s.dependency 'XCGLogger', '7.0.0'
 end
 
