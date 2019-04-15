@@ -1,10 +1,10 @@
-suffix = '-dev'   # Dev mode
-# suffix = ''       # Release
+#suffix = '-dev'   # Dev mode
+suffix = ''       # Release
 
 Pod::Spec.new do |s|
   
   s.name             = 'PlayKitGoogleCast'
-  s.version          = '1.1.0' + suffix
+  s.version          = '1.2.0' + suffix
   s.summary          = 'PlayKitGoogleCast -- Google cast framework for iOS'
   s.homepage         = 'https://github.com/kaltura/playkit-ios-googlecast'
   s.license          = { :type => 'AGPLv3', :file => 'LICENSE' }
