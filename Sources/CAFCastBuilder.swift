@@ -324,16 +324,15 @@ import GoogleCast
         let adBreakClipId = UUID().uuidString
         let adBreakId = UUID().uuidString
         
-        let adBreakInfo = GCKAdBreakInfo(playbackPosition: 0)
-        adBreakInfo.setValue(adBreakId, forKey: "adBreakID")
-        adBreakInfo.setValue([adBreakClipId], forKey: "adBreakClipIDs")
+        let adBreakInfoBuilder = GCKAdBreakInfoBuilder(adBreakID: adBreakId, adBreakClipIds: [adBreakClipId])
+        adBreakInfoBuilder.playbackPosition = 0
+        let adBreakInfo = adBreakInfoBuilder.build()
         self.adBreaks = [adBreakInfo]
         
-        let adBreakClipInfo = GCKAdBreakClipInfo()
-        adBreakClipInfo.setValue(adBreakClipId, forKey: "adBreakClipID")
-        let adBreakClipVastAdsRequest = GCKAdBreakClipVastAdsRequest()
-        adBreakClipVastAdsRequest.setValue(NSURL(string: adTagURL), forKey: "adTagUrl")
-        adBreakClipInfo.setValue(adBreakClipVastAdsRequest, forKey: "vastAdsRequest")
+        let adBreakClipInfoBuilder = GCKAdBreakClipInfoBuilder(adBreakClipID: adBreakClipId)
+        let vastAdsRequest = GCKVASTAdsRequest(adTagURL: URL(string: adTagURL), adsResponse: nil)
+        adBreakClipInfoBuilder.vastAdsRequest = vastAdsRequest
+        let adBreakClipInfo = adBreakClipInfoBuilder.build()
         self.adBreakClips = [adBreakClipInfo]
     }
 }

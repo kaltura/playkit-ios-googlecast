@@ -285,18 +285,22 @@ import GoogleCast
         
         try self.validate()
         let customData = self.customData()
-        let mediaInfo: GCKMediaInformation = GCKMediaInformation(contentID: self.contentId,
-                                                                 streamType: self.gckMediaStreamType,
-                                                                 contentType: self.contentType,
-                                                                 metadata: self.metaData,
-                                                                 adBreaks: self.adBreaks,
-                                                                 adBreakClips: self.adBreakClips,
-                                                                 streamDuration: self.streamDuration,
-                                                                 mediaTracks: self.mediaTracks,
-                                                                 textTrackStyle: self.textTrackStyle,
-                                                                 customData: customData)
         
-        return mediaInfo
+        let mediaInformationBuilder = GCKMediaInformationBuilder()
+        mediaInformationBuilder.contentID = self.contentId
+        mediaInformationBuilder.streamType = self.gckMediaStreamType
+        mediaInformationBuilder.streamDuration = self.streamDuration
+        mediaInformationBuilder.contentType = self.contentType
+        mediaInformationBuilder.metadata = self.metaData
+        mediaInformationBuilder.adBreaks = self.adBreaks
+        mediaInformationBuilder.adBreakClips = self.adBreakClips
+        mediaInformationBuilder.mediaTracks = self.mediaTracks
+        mediaInformationBuilder.textTrackStyle = self.textTrackStyle
+        mediaInformationBuilder.customData = customData
+        
+        let mediaInformation = mediaInformationBuilder.build()
+        
+        return mediaInformation
     }
     
     // MARK: - Create custom data

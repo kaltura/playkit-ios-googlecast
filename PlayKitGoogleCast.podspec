@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
     'LIBRARY_SEARCH_PATHS' => '$(inherited) "${PODS_ROOT}"/**'
   }
 
-  s.dependency 'google-cast-sdk', '4.3.3'
+  s.dependency 'google-cast-sdk', '4.4.3'
   s.dependency 'XCGLogger', '7.0.0'
 end
 
