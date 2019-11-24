@@ -296,7 +296,7 @@ import GoogleCast
         mediaInfoData["protocol"] = self.httpProtocol.description
         
         if let formats = self.formats {
-            mediaInfoData["formats"] = formats.description
+            mediaInfoData["formats"] = formats
         }
         
         if let fileIds = self.fileIds {
