@@ -50,7 +50,13 @@ import GoogleCast
         
         let metadata = AdsMetadata(dict: adsInfo)
         let adsBreakInfo = metadata.adsBreakInfo ?? []
-        let adsBreakInfoArray = adsBreakInfo.map({ GCKAdBreakInfo(playbackPosition: TimeInterval($0)) })
+        
+        let adsBreakInfoArray = adsBreakInfo.map { (position) -> GCKAdBreakInfo in
+            let builder = GCKAdBreakInfoBuilder(adBreakID: "", adBreakClipIds: nil)
+            builder.playbackPosition = TimeInterval(position)
+            let adBreakInfo = builder.build()
+            return adBreakInfo
+        }
         
         return adsBreakInfoArray
     }
