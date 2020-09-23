@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.swift_version     = '5.0'
   s.static_framework = true
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
 
   s.xcconfig = {
     'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
