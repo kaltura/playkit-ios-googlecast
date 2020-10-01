@@ -18,10 +18,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
 
   s.xcconfig = {
-    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
-    'OTHER_LDFLAGS' => '$(inherited) -framework "GoogleCast"',
-    'FRAMEWORK_SEARCH_PATHS' => '$(inherited) "${PODS_ROOT}"/**',
-    'LIBRARY_SEARCH_PATHS' => '$(inherited) "${PODS_ROOT}"/**'
+### The following is required for Xcode 12 (https://stackoverflow.com/questions/63607158/xcode-12-building-for-ios-simulator-but-linking-in-object-file-built-for-ios)
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
   }
 
   s.dependency 'google-cast-sdk', '4.5.0'
