@@ -18,6 +18,8 @@ import GoogleCast
     internal var assetReferenceType: CAFAssetReferenceType = .media
     internal var playbackContextType: CAFPlaybackContextType = .playback
     internal var httpProtocol: CAFHttpProtocol = .https
+    internal var urlType: CAFUrlType = .playmanifest
+    internal var streamerType: CAFStreamerType?
     internal var formats: [String]?
     internal var fileIds: String?
     internal var textLanguage: String?
@@ -78,6 +80,36 @@ import GoogleCast
             case .http: return "http"
             case .https: return "https"
             case .all: return "all"
+            }
+        }
+    }
+    
+    @objc public enum CAFUrlType: Int, CustomStringConvertible {
+        case playmanifest
+        case direct
+        
+        public var description: String {
+            switch self {
+            case .playmanifest: return "PLAYMANIFEST"
+            case .direct: return "DIRECT"
+            }
+        }
+    }
+
+    @objc public enum CAFStreamerType: Int, CustomStringConvertible {
+        case mpegdash
+        case applehttp
+        case url
+        case smothstreaming
+        case none
+        
+        public var description: String {
+            switch self {
+            case .mpegdash: return "mpegdash"
+            case .applehttp: return "applehttp"
+            case .url: return "url"
+            case .smothstreaming: return "smothstreaming"
+            case .none: return "none"
             }
         }
     }
@@ -155,6 +187,28 @@ import GoogleCast
     @objc public func set(httpProtocol: CAFHttpProtocol) -> Self {
         
         self.httpProtocol = httpProtocol
+        return self
+    }
+    
+    /**
+     Set - urlType
+     - Parameter urlType: The urlType , used by the Kaltura Web Player. (Default .playmanifest)
+     */
+    @discardableResult
+    @objc public func set(urlType: CAFUrlType) -> Self {
+        
+        self.urlType = urlType
+        return self
+    }
+    
+    /**
+     Set - streamerType
+     - Parameter streamerType: The streamerType, used by the Kaltura Web Player. (Default .applehttp)
+     */
+    @discardableResult
+    @objc public func set(streamerType: CAFStreamerType) -> Self {
+        
+        self.streamerType = streamerType
         return self
     }
     
@@ -294,6 +348,11 @@ import GoogleCast
         mediaInfoData["assetReferenceType"] = self.assetReferenceType.description
         mediaInfoData["contextType"] = self.playbackContextType.description
         mediaInfoData["protocol"] = self.httpProtocol.description
+        mediaInfoData["urlType"] = self.urlType.description
+        
+        if let streamerType = streamerType?.description {
+            mediaInfoData["streamerType"] = streamerType
+        }
         
         if let formats = self.formats {
             mediaInfoData["formats"] = formats
