@@ -19,7 +19,7 @@ import GoogleCast
     internal var playbackContextType: CAFPlaybackContextType = .playback
     internal var httpProtocol: CAFHttpProtocol = .https
     internal var urlType: CAFUrlType = .playmanifest
-    internal var streamerType: CAFStreamerType = .applehttp
+    internal var streamerType: CAFStreamerType?
     internal var formats: [String]?
     internal var fileIds: String?
     internal var textLanguage: String?
@@ -212,7 +212,6 @@ import GoogleCast
         return self
     }
     
-    
     /**
      Set - formats
      - Parameter formats: An array of formats, used by the Kaltura Web Player.
@@ -350,8 +349,10 @@ import GoogleCast
         mediaInfoData["contextType"] = self.playbackContextType.description
         mediaInfoData["protocol"] = self.httpProtocol.description
         mediaInfoData["urlType"] = self.urlType.description
-        mediaInfoData["streamerType"] = self.streamerType.description
-
+        
+        if let streamerType = streamerType?.description {
+            mediaInfoData["streamerType"] = streamerType
+        }
         
         if let formats = self.formats {
             mediaInfoData["formats"] = formats
