@@ -203,7 +203,7 @@ import GoogleCast
     
     /**
      Set - streamerType
-     - Parameter streamerType: The streamerType, used by the Kaltura Web Player. (Default .applehttp)
+     - Parameter streamerType: The streamerType, used by the Kaltura Web Player.
      */
     @discardableResult
     @objc public func set(streamerType: CAFStreamerType) -> Self {
