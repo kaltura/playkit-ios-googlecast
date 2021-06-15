@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64'
   }
 
-  s.dependency 'google-cast-sdk', '4.5.3'
+  s.dependency 'google-cast-sdk', '4.6.1'
   s.dependency 'XCGLogger', '7.0.0'
 end
 
