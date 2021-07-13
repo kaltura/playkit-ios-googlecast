@@ -4,7 +4,7 @@ suffix = '.0000'   # Dev mode
 Pod::Spec.new do |s|
   
   s.name             = 'PlayKitGoogleCast'
-  s.version          = '1.5.0' + suffix
+  s.version          = '1.5.1' + suffix
   s.summary          = 'PlayKitGoogleCast -- Google cast framework for iOS'
   s.homepage         = 'https://github.com/kaltura/playkit-ios-googlecast'
   s.license          = { :type => 'AGPLv3', :file => 'LICENSE' }
